@@ -4,8 +4,9 @@ pipeline{
          // Création image
         stage('Arreter et supprimer mon container cv_eleroy'){
             steps {
-                sh 'docker stop cv_eleroy'
-                sh 'docker rm cv_eleroy'
+                // sh 'docker stop cv_eleroy'
+                //sh 'docker rm cv_eleroy'
+                sh 'docker rm -f cv_eleroy || true'
             }
             post{
                 success {
