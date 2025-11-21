@@ -292,5 +292,5 @@ pipeline{
         unstable {
             echo "⚠️  Pipeline instable - Certaines étapes ont rencontré des problèmes"
         }
-    
+    }
 }
