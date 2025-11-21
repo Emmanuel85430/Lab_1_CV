@@ -5,10 +5,11 @@ pipeline{
         // Configuration Email
         EMAIL_RECIPIENTS = 'eleroy@cirilgroup.com'
         EMAIL_FROM = '"Jenkins CI/CD" <jenkins-TP>'
+        DOCKERHUB_CREDENTIALS = credentials('eleroy85430')
     }
     stages{
          // Création image
-        stage('Arreter et supprimer mon container cv_eleroy_cont'){
+        stage('Etape 0 :  et supprimer mon container cv_eleroy_cont'){
             steps {
                 // sh 'docker stop cv_eleroy_cont'
                 //sh 'docker rm cv_eleroy_cont'
@@ -24,7 +25,7 @@ pipeline{
             }
         }
         // Création image
-        stage('Création image docker'){
+        stage('Etape 1 : Création image docker'){
             steps {
                 sh 'docker build -t cv_eleroy .'
             }
@@ -37,7 +38,7 @@ pipeline{
                 }
             }
         }
-        stage('Lancer un container de cette image'){
+        stage('Etape 2 : Lancer un container de cette image'){
             steps {
                 sh 'docker run -d -p 8093:80 --name cv_eleroy_cont cv_eleroy'
             }
@@ -50,6 +51,23 @@ pipeline{
                 }
             }
         }
+        stage('Etape 3 : Tag and push image to dockerhub de eleroy85430') {
+                     steps {
+                         echo "tag and push image ..."
+                         sh "docker tag cv_eleroy eleroy85430/cv_eleroy"
+                         sh "docker login -u $DOCKERHUB_CREDENTIALS_USR -p $DOCKERHUB_CREDENTIALS_PSW"
+                         sh "docker push eleroy85430/cv_eleroy"
+                         sh "docker logout"
+                     }
+                     post {
+                         success {
+                             echo "====++++success++++===="
+                         }
+                         failure {
+                             echo "====++++failed++++===="
+                         }
+                     }
+          }
     }
     post {
         always {
