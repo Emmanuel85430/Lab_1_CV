@@ -2,11 +2,11 @@ pipeline{
     agent any
     stages{
          // Création image
-        stage('Arreter et supprimer mon container cv_eleroy'){
+        stage('Arreter et supprimer mon container cv_eleroy_cont'){
             steps {
-                // sh 'docker stop cv_eleroy'
-                //sh 'docker rm cv_eleroy'
-                sh 'docker rm -f cv_eleroy || true'
+                // sh 'docker stop cv_eleroy_cont'
+                //sh 'docker rm cv_eleroy_cont'
+                sh 'docker rm -f cv_eleroy_cont || true'
             }
             post{
                 success {
