@@ -15,7 +15,7 @@ pipeline{
                 }
             }
         }
-        stage('Lancer un container de cette image')){
+        stage('Lancer un container de cette image'){
             steps {
                 sh 'docker run -d -p 8093:80 --name cv_eleroy_cont cv_eleroy'
             }
