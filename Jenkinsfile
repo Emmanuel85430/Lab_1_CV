@@ -27,7 +27,7 @@ pipeline{
         // Création image
         stage('Etape 1 : Création image docker'){
             steps {
-                sh 'docker build -t cv_eleroy .'
+                sh 'docker build -t cv_eleroy:v2 .'
             }
             post{
                 success {
@@ -40,7 +40,7 @@ pipeline{
         }
         stage('Etape 2 : Lancer un container de cette image'){
             steps {
-                sh 'docker run -d -p 8093:80 --name cv_eleroy_cont cv_eleroy'
+                sh 'docker run -d -p 8093:80 --name cv_eleroy_cont cv_eleroy:v2'
             }
              post {
                 success {
@@ -54,9 +54,9 @@ pipeline{
         stage('Etape 3 : Tag and push image to dockerhub de eleroy85430') {
                      steps {
                          echo "tag and push image ..."
-                         sh "docker tag cv_eleroy eleroy85430/cv_eleroy"
+                         sh "docker tag cv_eleroy eleroy85430/cv_eleroy:v2"
                          sh "docker login -u $DOCKERHUB_CREDENTIALS_USR -p $DOCKERHUB_CREDENTIALS_PSW"
-                         sh "docker push eleroy85430/cv_eleroy"
+                         sh "docker push eleroy85430/cv_eleroy:v2"
                          sh "docker logout"
                      }
                      post {
